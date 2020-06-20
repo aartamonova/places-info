@@ -10,6 +10,7 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     # Services settings
+    PORT = '5000'
     AUTH_SERVICE_URL = 'https://places-info-auth.herokuapp.com'
     TAGS_SERVICE_URL = 'https://places-info-tags.herokuapp.com'
     PLACES_SERVICE_URL = 'https://places-info-places.herokuapp.com'
