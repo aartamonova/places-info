@@ -16,7 +16,7 @@ from places_info.places_info_model import TokenData
 
 redis_url = os.getenv('REDISTOGO_URL', 'redis://localhost:6379')
 redis_connection = Redis.from_url(redis_url)
-queue = rq.Queue(connection=redis_connection)
+queue = rq.Queue('places-info-tasks', connection=redis_connection)
 
 
 def admin_required(foo):
