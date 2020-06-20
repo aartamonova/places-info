@@ -8,6 +8,11 @@ app.register_blueprint(statistic_routes.bp)
 app.register_blueprint(tags_routes.bp)
 app.register_blueprint(places_routes.bp)
 
+
+def create_app():
+    return app
+
+
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
     app.run(debug=True, host='0.0.0.0', port=port)

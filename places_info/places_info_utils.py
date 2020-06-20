@@ -309,7 +309,7 @@ def get_statistic_helper(login, action_type):
     return response_500_error()
 
 
-def send_statistic_helper(action, result, name=None):
+def send_statistic(action, result, name=None):
     '''Отправить действие пользователя в статистику'''
     data = form_action_data(action, result, name)
     if data:
@@ -319,9 +319,9 @@ def send_statistic_helper(action, result, name=None):
             pass
 
 
-def send_statistic(action, result, name=None):
+def send_statistic_helper(action, result, name=None):
     '''Отправить задачу в очередь'''
-    queue.enqueue('places_info.places_info_utils.send_statistic', action, result, name)
+    queue.enqueue(send_statistic, action, result, name)
 
 
 @request_error_handler

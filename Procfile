@@ -1,2 +1,2 @@
-web: gunicorn --bind 0.0.0.0:$PORT app:app
+web: bin/start-nginx gunicorn -c config/gunicorn.conf.py 'app:create_app()'
 worker: python worker.py
