@@ -1,0 +1,15 @@
+flask~=1.1.2
+flask-bootstrap
+flask-api
+flask_wtf
+WTForms~=2.3.1
+Werkzeug~=1.0.1
+gunicorn
+requests
+flask-sqlalchemy
+flask-migrate
+flask_jwt_extended
+SQLAlchemy~=1.3.17
+alembic~=1.4.2
+PyJWT~=1.7.1
+alchemy-mock

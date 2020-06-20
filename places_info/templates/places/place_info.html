@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+<div class="row">
+    <!--Переменный размер первой колонки-->
+    {% if session['login'] %}
+    {% set class = 'col-xs-10' %}
+    {% else %}
+    {% set class = 'col-xs-12' %}
+    {% endif %}
+
+    <div class={{class}}>
+        {% if place %}
+        <div class="panel panel-default"
+             style="padding-top: 20px; padding-bottom: 20px; padding-left: 30px; padding-right: 30px;">
+            <div class="panel-body">
+                <font size="5rem"><b>{{ place['name'] }}</b>&nbsp;</font>
+                <font color="#5A5C5C">•&nbsp;&nbsp;{{ place['type'] }} </font>
+                <br><br>
+
+                <!--Картинка-->
+                <div class="thumbnail">
+                    {% set image_file = 'images/place_' + place["id"]|string + '.jpg' %}
+                    <img src="{{ url_for('static', filename=image_path) }}" alt="Фото">
+                </div>
+
+                <!--Теги-->
+                {% if tags %}
+                {% for tag in tags %}
+                {% set i = tag["id"] %}
+                <a href="{{ url_for('places.places_search_tag_result', tag_id=i) }}" class="nounderline">
+                    <span class="label label-default">{{ tag['name'] }}</span>
+                </a>&nbsp
+                {% endfor %}
+                <br><br>
+                {% endif %}
+
+                <!--Описание, телефон, адрес-->
+                {% if place['description'][:3] == '<p>' and place['description'][-4:] == '</p>'%}
+                    {{ place['description'] | safe }}
+                {% else %}
+                    <p>{{ place['description'] | safe }}</p>
+                {% endif %}
+                <br>
+                <font color="#5A5C5C">Телефон:&nbsp;&nbsp;{{ place['phone'] | safe}}</font>
+                <br>
+                <font color="#5A5C5C">Адрес:&nbsp;&nbsp;{{ place['address'] | safe}}</font>
+
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    {% if session['login'] %}{% if place %}
+    <div class="col-xs-2">
+        <div class="panel panel-default" align="center">
+            <div class="panel-body">
+                <!--Редактировать место-->
+                {% set i = place["id"] %}
+                <a href="{{url_for('places.place_edit', place_id=i)}}">
+                    <button type="button" class="btn btn-primary">&nbsp&nbspРедактировать&nbsp&nbsp</button>
+                </a>
+                <!--Удалить место-->
+                {% if session['admin'] %}{% if form %}
+                <br><br>
+                {{ wtf.quick_form(form, button_map={'submit':'danger'}) }}
+                {% endif %}{% endif %}
+            </div>
+        </div>
+    </div>
+    {% endif %}{% endif %}
+</div>
+{% endblock %}

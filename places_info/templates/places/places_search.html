@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+<!--Не показывать лейбл у формы поиска-->
+{% block styles %}
+{{super()}}
+<style>
+  .control-label {display: none;}
+</style>
+{% endblock %}
+
+{% block app_content %}
+<div class="panel panel-default" align="center" style="padding-bottom: 20px; padding-left: 30px;">
+    <div class="panel-body">
+        <h3><b>Поиск мест по названию</b></h3>
+        <br>
+
+        <div style="max-width:40%">
+            {{ wtf.quick_form(form, button_map={'submit':'primary'}) }}
+        </div>
+
+    </div>
+</div>
+{% endblock %}

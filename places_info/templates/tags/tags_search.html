@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+{% if tags%}
+<div class="panel panel-default" style="padding-bottom: 20px; padding-left: 30px; padding-right: 30px;">
+    <div class="panel-body">
+        <h3><b>Поиск по тегам</b></h3>
+        <br>
+
+        {% for tag in tags %}
+        {% set i = tag["id"] %}
+        <a href="{{ url_for('places.places_search_tag_result', tag_id=i) }}" class="nounderline">
+            <span class="label label-default">{{ tag["name"] }}</span>
+        </a>
+        &nbsp
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+{% endblock %}

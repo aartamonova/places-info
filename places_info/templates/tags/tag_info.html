@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+<div class="row">
+    <!--Переменный размер первой колонки-->
+    {% if session['admin'] %}
+    {% set class = 'col-xs-10' %}
+    {% else %}
+    {% set class = 'col-xs-12' %}
+    {% endif %}
+
+    <div class={{class}}>
+        {% if tag %}
+        <div class="panel panel-default" style="padding-bottom: 20px; padding-left: 30px;">
+            <div class="panel-body">
+
+                <h3><b>Информация о теге</b></h3>
+                <br>
+                <span class="label label-default">{{ tag["name"] }}</span>&nbsp
+                <br><br>
+                Тег добавлен пользователем <b>{{ tag["added_by"] }}</b>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    {% if session['admin'] %}{% if tag %}
+    <div class="col-xs-2">
+        <div class="panel panel-default" align="center">
+            <div class="panel-body">
+                <!--Удалить тег-->
+                {% if form %}
+                {{ wtf.quick_form(form, button_map={'submit':'danger'}) }}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endif %}{% endif %}
+</div>
+{% endblock %}

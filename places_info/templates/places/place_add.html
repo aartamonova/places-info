@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+<div class="panel panel-default" style="padding-bottom: 20px; padding-left: 30px;">
+    <div class="panel-body">
+        <h3><b>Добавить место</b></h3>
+        <br>
+        <div style="max-width:40%">
+            {{ wtf.quick_form(form, button_map={'submit':'primary'}) }}
+        </div>
+    </div>
+</div>
+{% endblock %}

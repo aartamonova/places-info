@@ -1,0 +1,84 @@
+/*
+    padding-top, padding-bottom - отступ блока внутри
+    margin-top, margin-bottom - отступ сверху и снизу блока
+*/
+
+@font-face {
+    font-family: 'cantarellregular';
+    src: url('cantarell-regular-webfont.woff2') format('woff2'),
+         url('cantarell-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    font-family: 'Cantarell', sans-serif;
+    font-size: 1.5rem;
+}
+
+.navbar {
+    margin-bottom: 20px;
+    background-color: #2D2A2A;
+    font-size: 1.5rem;
+}
+
+.jumbotron {
+    margin-bottom: 20px;
+}
+
+
+.container {
+    width: auto;
+    max-width: 1200px;
+    padding: 0 15px;
+    font-size: 1.5rem;
+}
+
+
+.label {
+    display: inline-block;
+    padding: .2em .6em .4em;
+    margin-bottom: .4em;
+    background-color: #DADEE2;
+    color: #5D6D7E;
+    font-size: 85%;
+    line-height: 1;
+    /*color: @label-color;*/
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25em;
+    text-decoration: none;
+
+    a& {
+        &:hover,
+        &:focus {
+          /*color: @label-link-hover-color;*/
+          text-decoration: none;
+          cursor: pointer;
+        }
+    }
+
+    &:empty {
+        display: none;
+    }
+
+    .btn & {
+        position: relative;
+        top: -2px;
+    }
+}
+
+.col1 { width: 33%; }
+.col2 { left: 33%; width: 34%; }
+.col3 { right: 0; width: 33%; }
+
+.nounderline {
+    text-decoration: none !important
+}
+
+.btn:focus {
+    outline: none !important;
+}

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+
+<div class="panel panel-default" align="center" style="padding-bottom: 20px;">
+    <div class="panel-body">
+        <h3 align="center"><b>Регистрация</b></h3>
+        <br>
+
+        <div class="col-sm-6 col-sm-offset-4" style="max-width: 400px;">
+            {{ wtf.quick_form(form, button_map={'submit':'success'}) }}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

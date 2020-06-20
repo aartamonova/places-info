@@ -1,0 +1,106 @@
+{% extends 'bootstrap/base.html' %}
+
+{% block styles %}
+{{super()}}
+<link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon" sizes="48x48"/>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.0/css/font-awesome.css">
+{% endblock %}
+
+{% block title %}
+Places info - Навигатор по объектам туризма и отдыха
+{% endblock %}
+
+<!--Навигационная панель-->
+{% block navbar %}
+<div class="container">
+    <nav class="navbar navbar-inverse" role="navigation">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <!--Главная-->
+                    <li><a href="{{url_for('index.index')}}">Главная</a></li>
+
+                    <!-- Места-->
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Места <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="{{url_for('places.places_search')}}">Поиск по названию</a></li>
+                            <li><a href="{{url_for('tags.tags_search')}}">Поиск по тегам</a></li>
+                            <li><a href="{{url_for('places.places_all')}}">Показать все</a></li>
+                            <li class="divider"></li>
+                            <li><a href="{{url_for('places.place_add')}}">Добавить место</a></li>
+                        </ul>
+                    </li>
+
+                    <!--Теги-->
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Теги <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="{{url_for('tags.tags_all')}}">Показать все</a></li>
+                            <li class="divider"></li>
+                            <li><a href="{{url_for('tags.tags_add')}}">Добавить тег</a></li>
+                        </ul>
+                    </li>
+
+                    <!--Статистика-->
+                    {% if session['admin'] %}
+                    <li><a href="{{url_for('statistic.statistic')}}">Статистика</a></li>
+                    {% endif %}
+                </ul>
+
+                <!--Выйти-->
+                {% if session['login'] %}
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="{{url_for('auth.logout')}}">
+                        <span class="glyphicon glyphicon-log-out"></span>
+                        &nbsp&nbspВыйти</a></li>
+                </ul>
+                <p class="navbar-text navbar-right">
+                    <span class="glyphicon glyphicon-user"></span>&nbsp&nbsp {{ session['login'] }}
+                </p>
+
+                {% else %}
+
+                <!--Войти-->
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="{{url_for('auth.login')}}"><span class="glyphicon glyphicon-log-in"></span>
+                        &nbsp&nbspВойти</a></li>
+                </ul>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+</div>
+{% endblock %}
+
+{% block content %}
+<!--Всплывающие сообщения-->
+<div class="container">
+    {% with messages = get_flashed_messages(with_categories=True) %}
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{ message[0] }}" role="alert">{{ message[1] }}</div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+</div>
+
+<!--Контент страницы-->
+<div class="container">
+    {% block app_content %}
+    {% endblock %}
+</div>
+
+<!--Footer-->
+<div class="container">
+    <div class="panel panel-default" style="background-color:#f5f5f5; border-color: #f5f5f5; font-size:1.3rem; padding-top: 10px; padding-bottom: 10px;">
+        <div class="panel-header" align="center">
+            <font color="#8E8E8E">
+                Адрес электронной почты: email@placeinfo.com <br>
+                Телефон: +7 (123) 45 67 89
+            </font>
+        </div>
+    </div>
+</div>
+{% endblock %}

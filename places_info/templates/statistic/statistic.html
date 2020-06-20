@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+<div class="panel panel-default" style="padding-bottom: 10px; padding-left: 30px; padding-right: 30px;">
+    <div class="panel-body">
+        <h3><b>Статистика</b></h3>
+        <br>
+
+        <div style="max-width:30%">
+            {{ wtf.quick_form(form, button_map={'submit':'primary'}) }}
+            <br><br><br>
+        </div>
+
+        {% if login %}
+        <font size="4.7rem"><b>Статистика пользователя {{ login }}</b></font>
+        <br><br>
+        <!--Отчет по работе с тегами-->
+        <span class="glyphicon glyphicon-bookmark"></span>
+        <font size="4rem"><b>&nbsp;&nbsp;Работа с тегами</b></font>
+        <br>
+        {% if actions_tag %}
+        <table class="table table-bordered table-hover specialCollapse" style="max-width:900px; margin-top:10px;">
+            <thead class="table-active">
+            <tr>
+                <td class="col-md-2"><b>Дата и время</b></td>
+                <td class="col-md-6"><b>Действие</b></td>
+                <td class="col-md-2"><b>Результат</b></td>
+            </tr>
+            </thead>
+            <tbody>
+            {% for action in actions_tag %}
+            <tr>
+                <td>{{ action["timestamp"][:-7] }}</td>
+                <td>{{ action["description"] }}</td>
+                <td>{{ action["result"] }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <br>
+        Нет действий
+        <br><br>
+        {% endif %}
+
+        <!--Отчет по работе с местами-->
+        <br>
+        <span class="glyphicon glyphicon-map-marker"></span>
+        <font size="4rem"><b>&nbsp;&nbsp;Работа с местами</b></font>
+        <br>
+        {% if actions_place %}
+        <table class="table table-bordered table-hover specialCollapse" style="max-width:900px; margin-top:10px;">
+            <thead class="table-active">
+            <tr>
+                <td class="col-md-2"><b>Дата и время</b></td>
+                <td class="col-md-6"><b>Действие</b></td>
+                <td class="col-md-2"><b>Результат</b></td>
+            </tr>
+            </thead>
+            <tbody>
+            {% for action in actions_place %}
+            <tr>
+                <td>{{ action["timestamp"][:-7] }}</td>
+                <td>{{ action["description"] }}</td>
+                <td>{{ action["result"] }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <br>
+        Нет действий
+        <br><br>
+        {% endif %}
+
+        <!--Отчет по поискам-->
+        <br>
+        <span class="glyphicon glyphicon-search"></span>
+        <font size="4rem"><b>&nbsp;&nbsp;Использование поиска</b></font>
+        <br>
+        {% if actions_search %}
+        <table class="table table-bordered table-hover specialCollapse" style="max-width:900px; margin-top:10px;">
+            <thead class="table-active">
+            <tr>
+                <td class="col-md-2"><b>Дата и время</b></td>
+                <td class="col-md-6"><b>Действие</b></td>
+                <td class="col-md-2"><b>Результат</b></td>
+            </tr>
+            </thead>
+            <tbody>
+            {% for action in actions_search %}
+            <tr>
+                <td>{{ action["timestamp"][:-7] }}</td>
+                <td>{{ action["description"] }}</td>
+                <td>{{ action["result"] }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <br>
+        Нет действий
+        <br><br>
+        {% endif %}
+
+        {% endif %}
+
+    </div>
+</div>
+{% endblock %}
