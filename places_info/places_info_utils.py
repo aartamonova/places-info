@@ -15,9 +15,9 @@ from werkzeug.utils import redirect
 from config import Config
 from places_info.places_info_model import TokenData
 
-redis_url = os.getenv('REDISTOGO_URL', 'redis://localhost:6379')
+redis_url = Config.REDISTOGO_URL
 redis_connection = Redis.from_url(redis_url)
-queue = rq.Queue('places-info-tasks', connection=redis_connection)
+queue = rq.Queue(connection=redis_connection)
 
 
 def admin_required(foo):
@@ -312,12 +312,11 @@ def get_statistic_helper(login, action_type):
 def send_statistic(action, result, name=None):
     '''Отправить действие пользователя в статистику'''
     data = form_action_data(action, result, name)
-    with ScriptInfo().load_app().app_context():
-        if data:
-            try:
-                requests.post(Config.STATISTIC_SERVICE_URL + '/statistic/add', data=json.dumps(data))
-            except:
-                pass
+    if data:
+        try:
+            requests.post(Config.STATISTIC_SERVICE_URL + '/statistic/add', data=json.dumps(data))
+        except:
+            pass
 
 
 def send_statistic_helper(action, result, name=None):
