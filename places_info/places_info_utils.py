@@ -1,15 +1,22 @@
 import functools
 import json
+import os
 
 import requests
+import rq
 from flask import abort, jsonify, make_response, flash, session, url_for, render_template
 from flask_api.status import (HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED, HTTP_403_FORBIDDEN,
                               HTTP_500_INTERNAL_SERVER_ERROR, HTTP_504_GATEWAY_TIMEOUT, HTTP_200_OK)
+from redis import Redis
 from requests.exceptions import ConnectTimeout, ConnectionError, ReadTimeout, Timeout
 from werkzeug.utils import redirect
 
 from config import Config
 from places_info.places_info_model import TokenData
+
+redis_url = os.getenv('REDISTOGO_URL', 'redis://localhost:6379')
+redis_connection = Redis.from_url(redis_url)
+queue = rq.Queue(connection=redis_connection)
 
 
 def admin_required(foo):
@@ -301,7 +308,7 @@ def get_statistic_helper(login, action_type):
     return response_500_error()
 
 
-def send_statistic_helper(action, result, name=None):
+def send_statistic(action, result, name=None):
     '''Отправить действие пользователя в статистику'''
     data = form_action_data(action, result, name)
     if data:
@@ -309,6 +316,11 @@ def send_statistic_helper(action, result, name=None):
             requests.post(Config.STATISTIC_SERVICE_URL + '/statistic/add', data=json.dumps(data))
         except:
             pass
+
+
+def send_statistic_helper(action, result, name=None):
+    '''Отправить задачу в очередь'''
+    queue.enqueue('places_info.places_info_utils.send_statistic', action, result, name)
 
 
 @request_error_handler
