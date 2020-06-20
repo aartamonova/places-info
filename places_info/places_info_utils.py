@@ -5,6 +5,7 @@ import os
 import requests
 import rq
 from flask import abort, jsonify, make_response, flash, session, url_for, render_template
+from flask.cli import ScriptInfo
 from flask_api.status import (HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED, HTTP_403_FORBIDDEN,
                               HTTP_500_INTERNAL_SERVER_ERROR, HTTP_504_GATEWAY_TIMEOUT, HTTP_200_OK)
 from redis import Redis
@@ -311,11 +312,12 @@ def get_statistic_helper(login, action_type):
 def send_statistic(action, result, name=None):
     '''Отправить действие пользователя в статистику'''
     data = form_action_data(action, result, name)
-    if data:
-        try:
-            requests.post(Config.STATISTIC_SERVICE_URL + '/statistic/add', data=json.dumps(data))
-        except:
-            pass
+    with ScriptInfo().load_app().app_context():
+        if data:
+            try:
+                requests.post(Config.STATISTIC_SERVICE_URL + '/statistic/add', data=json.dumps(data))
+            except:
+                pass
 
 
 def send_statistic_helper(action, result, name=None):
