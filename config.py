@@ -48,4 +48,5 @@ class Config:
     PLACES_APP = 'places'
     TAGS_APP = 'tags'
     STATISTIC_APP = 'statistic'
+    REDISTOGO_URL = os.environ.get('REDISTOGO_URL') or 'redis://'
     SECRET_KEY = 'places-info-secret-key'
