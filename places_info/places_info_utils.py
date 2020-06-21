@@ -116,7 +116,15 @@ def get_access_header(request_app):
     # Сначала попробовать прочитать из БД, нет/истек - запросить у сервиса авторизации
     token = TokenData.get_by_apps(Config.SOURCE_APP, request_app)
     if token and TokenData.check_token(token):
-        return {'Gui-Token': token.access_token}
+        try:
+            response = requests.get(Config.AUTH_SERVICE_URL + '/token/validate', 'source_app=' +
+                                    Config.SOURCE_APP + '&request_app=' + request_app +
+                                    '&access_token=' + str(token.access_token))
+        except:
+            pass
+        else:
+            if response.status_code == HTTP_200_OK:
+                return {'Gui-Token': token.access_token}
 
     try:
         response = requests.get(Config.AUTH_SERVICE_URL + '/token/get',
