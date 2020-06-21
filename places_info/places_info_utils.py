@@ -309,19 +309,24 @@ def get_statistic_helper(login, action_type):
     return response_500_error()
 
 
-def send_statistic(action, result, name=None):
+def send_statistic(data):
     '''Отправить действие пользователя в статистику'''
-    data = form_action_data(action, result, name)
+    print('Start statistic task')
     if data:
         try:
             requests.post(Config.STATISTIC_SERVICE_URL + '/statistic/add', data=json.dumps(data))
         except:
             pass
+    print('End statistic task')
 
 
 def send_statistic_helper(action, result, name=None):
     '''Отправить задачу в очередь'''
-    queue.enqueue(send_statistic, action, result, name)
+    data = form_action_data(action, result, name)
+    try:
+        queue.enqueue(send_statistic, data)
+    except:
+        pass
 
 
 @request_error_handler
