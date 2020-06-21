@@ -10,8 +10,8 @@
         {% for tag in tags %}
         {% set i = tag["id"] %}
         <a href="{{ url_for('tags.tag_info', tag_id=i) }}" class="nounderline">
-            <span class="label label-default">{{ tag["name"] }}</span>
-        </a> &nbsp
+            <span class="label label-default">{{ tag["name"] }}</span>&nbsp
+        </a>
         {% endfor %}
 
     </div>
