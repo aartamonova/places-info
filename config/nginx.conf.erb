@@ -25,19 +25,19 @@ http {
 
    server {
       listen <%= ENV["PORT"] %>;
-      server_name places-info.herokuapp.com default_server;
+      server_name places-info.herokuapp.com;
+
+      root /app/places_info;
+
+      location @app {
+			proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+			proxy_set_header Host $http_host;
+			proxy_redirect off;
+			proxy_pass http://app_server;
+	  }
 
       location / {
-        root /places_info/templates;
+        try_files $uri @app;
       }
-
-      # static
-      location ~* \.(jpg|jpeg|png|gif|ico|svg|otf)$ {
-            expires 30d;
-        }
-
-        location ~* \.(css|js)$ {
-            expires 7d;
-        }
    }
 }
